@@ -3,23 +3,23 @@ namespace Assignment_2;
 class Program
 {
     static string FileName = "VideoGames.txt";
-    static List<Game> VideoGames = GetGameList(FileName);
+    static List<Game> VideoGames = GetGameList();
     
     static void Main()
     {
         for (int i = 0; i < VideoGames.Count; i++)
         {
-            Console.WriteLine(VideoGames[i].ToString());
+            Console.WriteLine(VideoGames[i].ListGame());
         }
         AddGame();
     }
 
-    static List<Game> GetGameList(string fileName)
+    static List<Game> GetGameList()
     {
         List<Game> videoGames = new List<Game>();
         try
         {
-            StreamReader videoGamesFile = new StreamReader(fileName);
+            StreamReader videoGamesFile = new StreamReader(FileName);
             string? gameString = videoGamesFile.ReadLine();
             while (gameString != null)
             {
@@ -33,6 +33,7 @@ class Program
                 ));
                 gameString = videoGamesFile.ReadLine();
             }
+            videoGamesFile.Close();
         }
         catch (Exception ex)
         {
@@ -115,8 +116,16 @@ class Program
             Console.WriteLine("Invalid input, please enter a positive integer for the quantity");
             input = Console.ReadLine();
         }
-        Game output = new Game(itemNumber, itemName, price, userRating, quantity);
-        Console.WriteLine(output.ToString());
+        Game newGame = new Game(itemNumber, itemName, price, userRating, quantity);
+        VideoGames.Add(newGame);
+        try
+        {
+            File.AppendAllText(FileName,"\n"+ newGame.ToString());
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
     }
 }
 
@@ -138,6 +147,10 @@ internal class Game
     }
 
     public override string ToString()
+    {
+        return ItemNumber + "," + ItemName + "," + Price + "," + UserRating + "," + Quantity;
+    }
+    public string ListGame()
     {
         return ItemNumber + ": " + ItemName + " - $" + Price + ", " + UserRating + " Stars, " + Quantity + " In Stock";
     }
