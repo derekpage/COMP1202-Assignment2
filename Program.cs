@@ -382,8 +382,8 @@ class Program
         Console.WriteLine();
         Console.WriteLine($"Mean Price: ${meanPrice:F2}"); //Show the average price rounded to two decimal places.
         Console.WriteLine($"Price Range: ${priceRange}"); //Show the difference between the highest priced game and the lowest price game.
-        Console.WriteLine($"Highest Price: ${highestPriceGame.GetItemName()} - ${maximumPrice}"); //Show the game with the highest price.
-        Console.WriteLine($"Lowest Price: ${lowestPriceGame.GetItemName()} - ${minimumPrice}"); //Show the game with the lowest price.
+        Console.WriteLine($"Highest Price: {highestPriceGame.GetItemName()} - ${maximumPrice}"); //Show the game with the highest price.
+        Console.WriteLine($"Lowest Price: {lowestPriceGame.GetItemName()} - ${minimumPrice}"); //Show the game with the lowest price.
         Console.WriteLine();
         Console.Write("Press any key to go back to main menu ");
         Console.ReadLine();
