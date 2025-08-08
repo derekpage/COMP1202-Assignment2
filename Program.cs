@@ -2,6 +2,7 @@ namespace Assignment_2;
 
 class Program
 {
+    // Declare filename for videogame data and get list from existing file
     static string FileName = "VideoGames.txt";
     static List<Game> VideoGames = GetGameList();
     
@@ -14,12 +15,15 @@ class Program
         AddGame();
     }
 
+    // Function to get game list from file
     static List<Game> GetGameList()
     {
         List<Game> videoGames = new List<Game>();
         try
         {
             StreamReader videoGamesFile = new StreamReader(FileName);
+            
+            // Iterate through lines in file to map games to game objects
             string? gameString = videoGamesFile.ReadLine();
             while (gameString != null)
             {
@@ -42,6 +46,7 @@ class Program
         return videoGames;
     }
 
+    // Function to get list of item numbers for all games
     static List<int> GetItemNumbers()
     {
         List<int> itemNumbers = new List<int>();
@@ -52,8 +57,10 @@ class Program
         return itemNumbers;
     }
 
+    // Function to prompt user for new game info and add game to file and list
     static void AddGame()
     {
+        // Determine item number to use, provided by user or first unique number starting at 1000
         int itemNumber = 0;
         Console.WriteLine("Please enter an item number or leave blank to generate one");
         string? input = Console.ReadLine();
@@ -68,6 +75,7 @@ class Program
                     itemNumber++;
                 }
             }
+            // Input validation
             else if (!Int32.TryParse(input, out itemNumber) || itemNumber < 1 || itemNumber > 9999)
             {
                 Console.WriteLine("Invalid input, please enter a number between 1 and 9999");
@@ -82,6 +90,7 @@ class Program
             }
         }
         
+        // Prompts for game name, price, rating and quantity with input validation
         Console.WriteLine("Please enter the game name");
         string? itemName = Console.ReadLine();
         while (String.IsNullOrEmpty(itemName))
@@ -116,6 +125,7 @@ class Program
             Console.WriteLine("Invalid input, please enter a positive integer for the quantity");
             input = Console.ReadLine();
         }
+        // Create game object from provided info then add to list and file
         Game newGame = new Game(itemNumber, itemName, price, userRating, quantity);
         VideoGames.Add(newGame);
         try
@@ -129,6 +139,7 @@ class Program
     }
 }
 
+// Create video game class
 internal class Game
 {
     private int ItemNumber;
@@ -136,7 +147,7 @@ internal class Game
     private int Price;
     private int UserRating;
     private int Quantity;
-
+    // Constructor
     public Game(int itemNumber,  string itemName, int price, int userRating, int quantity)
     {
         ItemNumber =  itemNumber;
@@ -145,16 +156,18 @@ internal class Game
         UserRating = userRating;
         Quantity = quantity;
     }
-
+    
+    // Get data for video game to add to file
     public override string ToString()
     {
         return ItemNumber + "," + ItemName + "," + Price + "," + UserRating + "," + Quantity;
     }
+    // Get data for video game in human readable form
     public string ListGame()
     {
         return ItemNumber + ": " + ItemName + " - $" + Price + ", " + UserRating + " Stars, " + Quantity + " In Stock";
     }
-    
+    // Get values from each variable
     public int GetItemNumber()
     {
         return ItemNumber;
